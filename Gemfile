@@ -6,8 +6,8 @@ gem 'i18n'
 gem 'activesupport'
 gem 'awesome_print'
 gem 'launchy'
-gem 'oauth'
-gem 'twitter_oauth', '0.4.3'
+gem 'oauth', :git => "git://github.com/JonathonMA/oauth-ruby.git", :branch => "fix/site_with_path"
+gem 'twitter_oauth', :git => "git://github.com/JonathonMA/twitter_oauth.git", :branch => "fix/hardcoded_site_and_path"
 gem 'slop'
 
 group :development do

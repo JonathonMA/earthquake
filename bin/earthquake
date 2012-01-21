@@ -8,6 +8,7 @@ slop.on :d, :debug, 'Enable debug mode'
 slop.on :n, :'no-logo', 'No Logo'
 slop.on :c, :command, "Invoke an command and exit", true
 slop.on :l, :lolize, 'enable lolize (see: https://github.com/miaout17/lolize)'
+slop.on :i, :identica, 'enable Identi.ca mode'
 begin
   slop.parse!(argv)
 rescue => e

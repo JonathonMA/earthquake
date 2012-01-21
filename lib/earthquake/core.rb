@@ -48,6 +48,10 @@ module Earthquake
       _init
     end
 
+    def identica?
+      config[:identica]
+    end
+
     def load_config
       config[:dir]              ||= File.expand_path('~/.earthquake')
       config[:time_format]      ||= Time::DATE_FORMATS[:short]
@@ -56,11 +60,21 @@ module Earthquake
       config[:prompt]           ||= '⚡ '
       config[:consumer_key]     ||= 'RmzuwQ5g0SYObMfebIKJag'
       config[:consumer_secret]  ||= 'V98dYYmWm9JoG7qfOF0jhJaVEVW3QhGYcDJ9JQSXU'
+      config[:identica_consumer_key]    ||= '287fb68851c0bfb9d3aa095f8adc0fc5'
+      config[:identica_consumer_secret] ||= '417e36b768ebc390d1edbf2a57ecea73'
       config[:output_interval]  ||= 1
       config[:history_size]     ||= 1000
       config[:api]              ||= { :host => 'userstream.twitter.com', :path => '/2/user.json', :ssl => true }
       config[:confirm_type]     ||= :y
       config[:expand_url]       ||= false
+      config[:proxy]            ||= ENV['http_proxy']
+      if identica?
+        config[:site] ||= "https://identi.ca/api"
+        config[:search_site] ||= "https://identi.ca/api"
+        config[:api_version_path] ||= ""
+      else
+        config[:site] ||= "https://api.twitter.com"
+      end
 
       [config[:dir], config[:plugin_dir]].each do |dir|
         unless File.exists?(dir)
@@ -74,7 +88,16 @@ module Earthquake
         File.open(config[:file], 'w')
       end
 
-      get_access_token unless self.config[:token] && self.config[:secret]
+      if identica?
+        # libraries expect these in the base versions
+        config[:consumer_key] = config[:identica_consumer_key]
+        config[:consumer_secret] = config[:identica_consumer_secret]
+        get_access_token unless self.config[:identica_token] && self.config[:identica_secret]
+        config[:token] = config[:identica_token]
+        config[:secret] = config[:identica_secret]
+      else
+        get_access_token unless self.config[:token] && self.config[:secret]
+      end
     end
 
     def load_plugins
@@ -133,8 +156,16 @@ module Earthquake
     end
 
     def reconnect
-      item_queue.clear
-      start_stream(config[:api])
+      if identica?
+        # identica doesn't need to reconnect, since it polls
+        unless @identica_polling
+          item_queue.clear
+          start_polling_identica
+        end
+      else
+        item_queue.clear
+        start_stream(config[:api])
+      end
     end
 
     def start_stream(options)

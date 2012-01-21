@@ -1,3 +1,20 @@
+GIT
+  remote: git://github.com/JonathonMA/oauth-ruby.git
+  revision: 16ab31ceb8a40d4a522009d7e7480bf032383fb8
+  branch: fix/site_with_path
+  specs:
+    oauth (0.4.5)
+
+GIT
+  remote: git://github.com/JonathonMA/twitter_oauth.git
+  revision: 64ceb6476f1ec1c386ca2c6d97be2272dd65fee6
+  branch: fix/hardcoded_site_and_path
+  specs:
+    twitter_oauth (0.4.3)
+      json (>= 1.1.9)
+      mime-types (>= 1.16)
+      oauth (>= 0.4.1)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -12,13 +29,12 @@ GEM
       bundler (~> 1.0.0)
       git (>= 1.2.5)
       rake
-    json (1.5.1)
+    json (1.6.5)
     launchy (0.4.0)
       configuration (>= 0.0.5)
       rake (>= 0.8.1)
-    mime-types (1.16)
+    mime-types (1.17.2)
     notify (0.3.0)
-    oauth (0.4.4)
     rake (0.8.7)
     roauth (0.0.3)
     rspec (2.3.0)
@@ -33,10 +49,6 @@ GEM
     twitter-stream (0.1.12)
       eventmachine (>= 0.12.8)
       roauth (>= 0.0.2)
-    twitter_oauth (0.4.3)
-      json (>= 1.1.9)
-      mime-types (>= 1.16)
-      oauth (>= 0.4.1)
 
 PLATFORMS
   ruby
@@ -49,8 +61,8 @@ DEPENDENCIES
   jeweler (~> 1.5.2)
   launchy
   notify
-  oauth
+  oauth!
   rspec (~> 2.3.0)
   slop
   twitter-stream
-  twitter_oauth (= 0.4.3)
+  twitter_oauth!
